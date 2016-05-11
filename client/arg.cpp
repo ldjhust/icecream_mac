@@ -129,8 +129,10 @@ bool analyse_argv( const char * const *argv,
             args.append(a, Arg_Local);
         } else if (a[0] == '-') {
             if ( is_linker_flag && strcmp(a, "-o") == 0 ) {
-                // 这是最后一个参数了，不会再有Xlinker，将wl_arg添加到args里面去
-                args.append( wl_arg, Arg_Rest);
+                // 这是最后一个参数了，不会再有Xlinker，将wl_arg添加到args里面去，链接参数是本地的
+                trace() << "添加进去了" << endl;
+                args.append( wl_arg, Arg_Local);
+                is_linker_flag = false;
             }
 
             if (!strcmp(a, "-E") || !strncmp(a, "-fdump", 6) || !strcmp(a, "-combine")) {
