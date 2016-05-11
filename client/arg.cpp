@@ -229,9 +229,6 @@ bool analyse_argv( const char * const *argv,
                 strcat( wl_arg, ",");
                 strcat( wl_arg, argv[++i]);
                 trace() << "哦哦哦，现在wl_arg是：" << wl_arg << endl;
-
-                continue;
-
             } else if (!strcmp(a, "-S")) {
                 seen_s = true;
             } else if (!strcmp(a, "-fprofile-arcs")
