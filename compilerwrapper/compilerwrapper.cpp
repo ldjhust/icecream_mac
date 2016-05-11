@@ -53,11 +53,11 @@ int main( int argc, char* argv[] )
         fprintf( stderr, "%s\n", argv[ i ] );
     fprintf( stderr, "\n" );
 #endif
-    bool isclang = argc >= 2 && strcmp( argv[ 1 ], "clang" ) == 0; // the extra argument from icecream
+    bool isclang = argc >= 2 && strcmp( argv[ 1 ], "/usr/local/opt/icecream/libexec/icecc/bin/clang" ) == 0; // the extra argument from icecream
     // 1 extra for -no-canonical-prefixes
     char** args = new char*[ argc + 2 ];
 
-    fprintf( stdout, "argc = %d\nargv[1] = %s\n", argc, argv[1]); // debug
+    fprintf( stderr, "argc = %d\nargv[1] = %s\n", argc, argv[1]); // debug
     char* wl_args; // for -Wl flags
     bool is_wl_start = true;
 
