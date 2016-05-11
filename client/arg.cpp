@@ -118,6 +118,9 @@ bool analyse_argv( const char * const *argv,
         job.setLanguage( CompileJob::Lang_Custom );
     }
 
+    bool is_wl_start = true;
+    char *wl_arg;
+
     for (int i = had_cc ? 2 : 1; argv[i]; i++) {
         const char *a = argv[i];
 
@@ -212,7 +215,15 @@ bool analyse_argv( const char * const *argv,
                 } else
                     args.append(a, Arg_Remote);
             } else if ( strcmp( a, "-Xlinker" ) == 0 ) { // here
-                trace() << "哈哈，找到了Xlinker 哈哈哈哈哈哈哈哈哈哈哈 ";
+                trace() << "哈哈，找到了Xlinker 替换为Wl哈哈哈哈哈哈哈哈哈哈哈 " << endl;
+                if ( is_wl_start ) {
+                    is_wl_start = false;
+                    wl_arg = strdup( "-Wl" );
+                }
+
+                strcat( wl_arg, ",");
+                strcat( wl_arg, argv[i+1])
+                trace() << "哦哦哦，现在wl_arg是：" << wl_arg << endl;
             } else if (!strcmp(a, "-S")) {
                 seen_s = true;
             } else if (!strcmp(a, "-fprofile-arcs")
