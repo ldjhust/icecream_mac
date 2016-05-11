@@ -222,7 +222,7 @@ bool analyse_argv( const char * const *argv,
                 }
 
                 strcat( wl_arg, ",");
-                strcat( wl_arg, argv[i+1])
+                strcat( wl_arg, argv[i+1]);
                 trace() << "哦哦哦，现在wl_arg是：" << wl_arg << endl;
             } else if (!strcmp(a, "-S")) {
                 seen_s = true;
