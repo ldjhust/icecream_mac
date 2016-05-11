@@ -211,6 +211,8 @@ bool analyse_argv( const char * const *argv,
                     args.append(a, Arg_Local);
                 } else
                     args.append(a, Arg_Remote);
+            } else if ( strcmp( a, "-Xlinker" ) == 0 ) { // here
+                trace() << "哈哈，找到了Xlinker 哈哈哈哈哈哈哈哈哈哈哈 ";
             } else if (!strcmp(a, "-S")) {
                 seen_s = true;
             } else if (!strcmp(a, "-fprofile-arcs")
