@@ -57,6 +57,7 @@ int main( int argc, char* argv[] )
     // 1 extra for -no-canonical-prefixes
     char** args = new char*[ argc + 2 ];
 
+    fprintf( stdout, "argc = %d\nargv[1] = %s\n", argc, argv[1]); // debug
     char* wl_args; // for -Wl flags
     bool is_wl_start = true;
 
