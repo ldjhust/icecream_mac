@@ -127,6 +127,11 @@ bool analyse_argv( const char * const *argv,
         if (icerun) {
             args.append(a, Arg_Local);
         } else if (a[0] == '-') {
+            if ( strcmp(a, "-o") == 0 ) {
+                // 这是最后一个参数了，不会再有Xlinker，将wl_arg添加到args里面去
+                args.append( wl_arg, Arg_Rest);
+            }
+
             if (!strcmp(a, "-E") || !strncmp(a, "-fdump", 6) || !strcmp(a, "-combine")) {
                 always_local = true;
                 args.append(a, Arg_Local);
@@ -191,9 +196,9 @@ bool analyse_argv( const char * const *argv,
                         local = true;
                         break;
                     }
-		    if (!*pos)
-		        break;
-		}
+        		    if (!*pos)
+        		        break;
+        		}
                 /* Some weird build systems pass directly additional assembler files.
                  * Example: -Wa,src/code16gcc.s
                  * Need to handle it locally then. Search if the first part after -Wa, does not start with -
@@ -201,9 +206,9 @@ bool analyse_argv( const char * const *argv,
                 pos = a+3;
                 while (*pos) {
                     if (*pos == ',' || *pos == ' ') {
-			pos++;
+			             pos++;
                         continue;
-		    }
+		            }
                     if (*pos == '-')
                         break;
                     local = true;
@@ -222,8 +227,11 @@ bool analyse_argv( const char * const *argv,
                 }
 
                 strcat( wl_arg, ",");
-                strcat( wl_arg, argv[i+1]);
+                strcat( wl_arg, argv[++i]);
                 trace() << "哦哦哦，现在wl_arg是：" << wl_arg << endl;
+
+                continue;
+
             } else if (!strcmp(a, "-S")) {
                 seen_s = true;
             } else if (!strcmp(a, "-fprofile-arcs")
@@ -255,7 +263,7 @@ bool analyse_argv( const char * const *argv,
             } else if (str_startswith("-o", a)) {
                 if (!strcmp(a, "-o")) {
                     /* Whatever follows must be the output */
-		    if ( argv[i+1] )
+		            if ( argv[i+1] )
                       ofile = argv[++i];
                 } else {
                     a += 2;
@@ -298,9 +306,9 @@ bool analyse_argv( const char * const *argv,
                 args.append(a, Arg_Cpp);
                 /* skip next word, being option argument */
                 if (argv[i+1]) {
-		    ++i;
+		            ++i;
                     args.append(  argv[i], Arg_Cpp );
-		}
+		        }
             } else if (str_equal("-I", a)
                        || str_equal("-L", a)
                        || str_equal("-l", a)
@@ -320,11 +328,11 @@ bool analyse_argv( const char * const *argv,
                 args.append(a, Arg_Local);
                 /* skip next word, being option argument */
                 if (argv[i+1]) {
-		    ++i;
-		    if (str_startswith("-O", argv[i]))
-			 always_local = true;
+		            ++i;
+		            if (str_startswith("-O", argv[i]))
+			        always_local = true;
                     args.append(  argv[i], Arg_Local );
-		}
+		        }
             } else if (str_startswith("-Wp,", a)
                  || str_startswith("-D", a)
                  || str_startswith("-U", a)) {
