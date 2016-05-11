@@ -119,6 +119,7 @@ bool analyse_argv( const char * const *argv,
     }
 
     bool is_wl_start = true;
+    bool is_linker_flag = false
     char *wl_arg;
 
     for (int i = had_cc ? 2 : 1; argv[i]; i++) {
@@ -127,7 +128,7 @@ bool analyse_argv( const char * const *argv,
         if (icerun) {
             args.append(a, Arg_Local);
         } else if (a[0] == '-') {
-            if ( strcmp(a, "-o") == 0 ) {
+            if ( is_linker_flag && strcmp(a, "-o") == 0 ) {
                 // 这是最后一个参数了，不会再有Xlinker，将wl_arg添加到args里面去
                 args.append( wl_arg, Arg_Rest);
             }
@@ -229,6 +230,9 @@ bool analyse_argv( const char * const *argv,
                 strcat( wl_arg, ",");
                 strcat( wl_arg, argv[++i]);
                 trace() << "哦哦哦，现在wl_arg是：" << wl_arg << endl;
+
+                is_linker_flag = true;
+                continue;
             } else if (!strcmp(a, "-S")) {
                 seen_s = true;
             } else if (!strcmp(a, "-fprofile-arcs")
