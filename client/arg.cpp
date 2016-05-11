@@ -119,7 +119,7 @@ bool analyse_argv( const char * const *argv,
     }
 
     bool is_wl_start = true;
-    bool is_linker_flag = false
+    bool is_linker_flag = false;
     char *wl_arg;
 
     for (int i = had_cc ? 2 : 1; argv[i]; i++) {
