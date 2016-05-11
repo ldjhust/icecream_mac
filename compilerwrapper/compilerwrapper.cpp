@@ -56,6 +56,10 @@ int main( int argc, char* argv[] )
     bool isclang = argc >= 2 && strcmp( argv[ 1 ], "clang" ) == 0; // the extra argument from icecream
     // 1 extra for -no-canonical-prefixes
     char** args = new char*[ argc + 2 ];
+
+    char* wl_args; // for -Wl flags
+    bool is_wl_start = true;
+
     args[ 0 ] = new char[ strlen( argv[ 0 ] ) + 20 ];
     strcpy( args[ 0 ], argv[ 0 ] );
     char* separator = strrchr( args[ 0 ], '/' );
@@ -109,6 +113,27 @@ int main( int argc, char* argv[] )
                 ++i; // skip following
                 continue; // and skip this one
             }
+            if( strcmp( argv[i], "-Xlinker" ) == 0 )
+            {
+                // need to change -Xlinker to -Wl
+                if ( is_wl_start )
+                {
+                    is_wl_start = false;
+                    wl_args = strdup( "-Wl" );
+                }
+
+                // append the next argument to wl_args
+                strcat( wl_args, "," );
+                strcat( wl_args, argv[ ++i] ); // -Xlinker's next，-Xlinker will be ignore
+                continue;
+            }
+
+            if ( strcmp( argv[i], "-o" ) == 0 )
+            {
+                // add -Wl before -o
+                args[ pos++ ] = strdup( wl_args );
+            }
+
             args[ pos++ ] = strdup( argv[ i ] );
         }
     }
