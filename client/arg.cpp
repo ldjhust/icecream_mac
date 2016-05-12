@@ -131,7 +131,7 @@ bool analyse_argv( const char * const *argv,
             if ( is_linker_flag && strcmp(a, "-o") == 0 ) {
                 // 这是最后一个参数了，不会再有Xlinker，将wl_arg添加到args里面去，链接参数是本地的
                 trace() << "添加进去了" << endl;
-                args.append( wl_arg, Arg_Local);
+                args.append( wl_arg.c_str(), Arg_Local);
                 is_linker_flag = false;
 
                 trace() << "看看args：";
