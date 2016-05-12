@@ -234,7 +234,7 @@ bool analyse_argv( const char * const *argv,
                 // trace() << "哦哦哦，现在wl_arg是：" << wl_arg << endl;
 
                 // is_linker_flag = true; // 先不用合在一起，每次单独传过去看看，即-Wl,rpath -Wl,2这种方式
-                always_local = true
+                always_local = true;
                 args.append( strcat("-Wl,", argv[++i]), Arg_Local );
             } else if (!strcmp(a, "-S")) {
                 seen_s = true;
