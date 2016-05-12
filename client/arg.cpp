@@ -128,12 +128,12 @@ bool analyse_argv( const char * const *argv,
         if (icerun) {
             args.append(a, Arg_Local);
         } else if (a[0] == '-') {
-            if ( is_linker_flag && strcmp(a, "-o") == 0 ) {
-                // 这是最后一个参数了，不会再有Xlinker，将wl_arg添加到args里面去，链接参数是本地的
-                trace() << "添加进去了" << endl;
-                args.append( wl_arg, Arg_Local);
-                is_linker_flag = false;
-            }
+            // if ( is_linker_flag && strcmp(a, "-o") == 0 ) {
+            //     // 这是最后一个参数了，不会再有Xlinker，将wl_arg添加到args里面去，链接参数是本地的
+            //     trace() << "添加进去了" << endl;
+            //     args.append( wl_arg, Arg_Local);
+            //     is_linker_flag = false;
+            // }
 
             if (!strcmp(a, "-E") || !strncmp(a, "-fdump", 6) || !strcmp(a, "-combine")) {
                 always_local = true;
@@ -224,16 +224,18 @@ bool analyse_argv( const char * const *argv,
                     args.append(a, Arg_Remote);
             } else if ( strcmp( a, "-Xlinker" ) == 0 ) { // here
                 trace() << "哈哈，找到了Xlinker 替换为Wl哈哈哈哈哈哈哈哈哈哈哈 " << endl;
-                if ( is_wl_start ) {
-                    is_wl_start = false;
-                    wl_arg = strdup( "-Wl" );
-                }
+                // if ( is_wl_start ) {
+                //     is_wl_start = false;
+                //     wl_arg = strdup( "-Wl" );
+                // }
 
-                strcat( wl_arg, ",");
-                strcat( wl_arg, argv[++i]);
-                trace() << "哦哦哦，现在wl_arg是：" << wl_arg << endl;
+                // strcat( wl_arg, ",");
+                // strcat( wl_arg, argv[++i]);
+                // trace() << "哦哦哦，现在wl_arg是：" << wl_arg << endl;
 
-                is_linker_flag = true;
+                // is_linker_flag = true; // 先不用合在一起，每次单独传过去看看，即-Wl,rpath -Wl,2这种方式
+                always_local = true
+                args.append( strcat("-Wl,", argv[++i]), Arg_Local );
             } else if (!strcmp(a, "-S")) {
                 seen_s = true;
             } else if (!strcmp(a, "-fprofile-arcs")
