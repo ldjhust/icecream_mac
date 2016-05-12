@@ -234,7 +234,6 @@ bool analyse_argv( const char * const *argv,
                 trace() << "哦哦哦，现在wl_arg是：" << wl_arg << endl;
 
                 is_linker_flag = true;
-                continue;
             } else if (!strcmp(a, "-S")) {
                 seen_s = true;
             } else if (!strcmp(a, "-fprofile-arcs")
