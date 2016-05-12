@@ -131,16 +131,8 @@ bool analyse_argv( const char * const *argv,
             if ( is_linker_flag && strcmp(a, "-o") == 0 ) {
                 // 这是最后一个参数了，不会再有Xlinker，将wl_arg添加到args里面去，链接参数是本地的
                 trace() << "添加进去了" << endl;
-                args.append( wl_arg.c_str(), Arg_Local);
+                args.append( wl_arg, Arg_Local);
                 is_linker_flag = false;
-
-                trace() << "看看args：";
-                // for (std::pair<std::basic_string<char>, Argument_Type>::iterator it = args.begin(); it != args.end(); ++it) {
-                //     // 打印出args看看是否成功添加
-                //     trace() << it << " ";
-                // }
-                trace() << args.end();
-                trace() << endl;
             }
 
             if (!strcmp(a, "-E") || !strncmp(a, "-fdump", 6) || !strcmp(a, "-combine")) {
