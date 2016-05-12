@@ -135,10 +135,11 @@ bool analyse_argv( const char * const *argv,
                 is_linker_flag = false;
 
                 trace() << "看看args：";
-                for (std::pair<std::basic_string<char>, Argument_Type>::iterator it = args.begin(); it != args.end(); ++it) {
-                    // 打印出args看看是否成功添加
-                    trace() << it << " ";
-                }
+                // for (std::pair<std::basic_string<char>, Argument_Type>::iterator it = args.begin(); it != args.end(); ++it) {
+                //     // 打印出args看看是否成功添加
+                //     trace() << it << " ";
+                // }
+                trace() << args.end();
                 trace() << endl;
             }
 
