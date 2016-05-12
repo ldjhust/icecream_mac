@@ -135,9 +135,9 @@ bool analyse_argv( const char * const *argv,
                 is_linker_flag = false;
 
                 trace() << "看看args：";
-                for (int j = 0; j < args.size; j++) {
+                for (ArgumentsList::iterator it = args.begin(); it != args.end(); ++it) {
                     // 打印出args看看是否成功添加
-                    trace() << args[j] << " ";
+                    trace() << it << " ";
                 }
                 trace() << endl;
             }
