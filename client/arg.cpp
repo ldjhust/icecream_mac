@@ -235,7 +235,9 @@ bool analyse_argv( const char * const *argv,
 
                 // is_linker_flag = true; // 先不用合在一起，每次单独传过去看看，即-Wl,rpath -Wl,2这种方式
                 always_local = true;
-                args.append( strcat("-Wl,", argv[++i]), Arg_Local );
+                char *tmp = "-Wl,";
+                args.append( strcat(tmp, argv[++i]), Arg_Local );
+                continue;
             } else if (!strcmp(a, "-S")) {
                 seen_s = true;
             } else if (!strcmp(a, "-fprofile-arcs")
