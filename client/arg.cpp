@@ -249,10 +249,17 @@ bool analyse_argv( const char * const *argv,
 #endif
                 always_local = true;
                 args.append(a, Arg_Local);
-            } else if (!strcmp(a, "-x")) {
-#if CLIENT_DEBUG
-                log_info() << "gcc's -x handling is complex; running locally" << endl;
-#endif
+            } else if (!strcmp(a, "-x")
+                        && ((argv[i+1] == NULL) // just "-x" run local
+                            || (argv[i+1] // should handle "-x c++" etc.
+                                && strcmp("c", argv[i+1])
+                                && strcmp("c++", argv[i+1])
+                                && strcmp("objective-c", argv[i+1])
+                                && strcmp("objective-c++", argv[i+1])
+                                )
+                            )
+                        ) {
+                trace() << "gcc's -x handling is complex; running locally" << endl;
                 always_local = true;
                 args.append(a, Arg_Local);
             } else if (!strcmp(a, "-march=native") || !strcmp(a, "-mcpu=native") || !strcmp(a, "-mtune=native")) {
